@@ -15,10 +15,10 @@ struct Snake {
 
 /*  
 食物结构体
-position： 存储食物的位置，是一个二维坐标 (f64, f64)
+position： 存储食物的位置，前面两个变量表示食物的左上角坐标，后面两个变量表示食物的宽度和高度
 */
 struct Food {
-    position: (f64, f64),
+    position: (f64, f64, f64, f64),
 }
 
 /*
@@ -78,7 +78,7 @@ impl Food {
     */
     fn new() -> Self {
         Food {
-            position: (300.0, 300.0),
+            position: (300.0, 300.0, 15.0, 15.0),
         }
     }
 }
@@ -110,8 +110,11 @@ fn main() {
         // 调用 snake.move_forward 方法使蛇向前移动。
         snake.move_forward();
         // 检查蛇的头部是否与食物位置重合，如果是，则重新生成食物位置并使蛇增长。
-        if snake.segments[0] == food.position {
-            food.position = (rand::random::<f64>() * 640.0, rand::random::<f64>() * 480.0);
+        if  snake.segments[0].0 >= food.position.0 
+            && snake.segments[0].0 <= (food.position.0 + food.position.2) 
+            && snake.segments[0].1 >= food.position.1 
+            && snake.segments[0].1 <= (food.position.1 + food.position.3) {
+            food.position = (rand::random::<f64>() * 640.0, rand::random::<f64>() * 480.0, 15.0, 15.0);
             snake.grow();
         }
         // 绘制窗口
