@@ -100,8 +100,8 @@ fn main() {
         // 
         if let Some(Button::Keyboard(key)) = event.press_args() {
             match key {
-                Key::Up => snake.change_direction((0.0, 1.0)),
-                Key::Down => snake.change_direction((0.0, -1.0)),
+                Key::Up => snake.change_direction((0.0, -1.0)),
+                Key::Down => snake.change_direction((0.0, 1.0)),
                 Key::Left => snake.change_direction((-1.0, 0.0)),
                 Key::Right => snake.change_direction((1.0, 0.0)),
                 _ => {}
