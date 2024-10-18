@@ -1,0 +1,9 @@
+[package]
+name = "snake"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+crossterm = "0.21"
+rand = "0.8"
+piston_window = "0.120.0"
