@@ -1,10 +1,12 @@
 extern crate piston_window;
 
 use food::Food;
+use game_state::GameState;
 use piston_window::*;
 use snake::Snake;
 
 mod food;
+mod game_state;
 mod snake;
 
 fn main() {
@@ -16,12 +18,18 @@ fn main() {
         .exit_on_esc(true)
         .build()
         .unwrap();
-    // 初始化蛇和食物
+    // 初始化蛇,食物,游戏状态
     let mut snake = Snake::new();
     let mut food = Food::new();
+    let mut game_state = GameState::new();
     // 主循环
     // 通过 window.next() 获取窗口事件，检查是否有键盘按键事件
     while let Some(event) = window.next() {
+        // 如果游戏结束，停止一切操作
+        if game_state.is_game_over() {
+            continue;
+        }
+
         // 检查是否有键盘按键事件，并根据按键方向改变蛇的方向。
         if let Some(Button::Keyboard(key)) = event.press_args() {
             match key {
@@ -29,13 +37,24 @@ fn main() {
                 Key::Down => snake.change_direction((0.0, 1.0)),
                 Key::Left => snake.change_direction((-1.0, 0.0)),
                 Key::Right => snake.change_direction((1.0, 0.0)),
+                Key::Space => {
+                    if game_state.is_running() {
+                        game_state.pause();
+                    } else if game_state.is_paused() {
+                        game_state.resume();
+                    }
+                }
                 _ => {}
             }
         }
 
+        // 如果游戏暂停，不进行更新
+        if game_state.is_paused() {
+            continue;
+        }
+
         // 检查蛇的头部是否与食物位置重合，如果是，则重新生成食物位置并使蛇增长。
-        if snake.check_collision_with_food(&food)
-        {
+        if snake.check_collision_with_food(&food) {
             // 蛇头的上侧与食物的下侧相接触
             // 碰撞发生，生成新的食物位置并增长蛇
             food.update(&snake);
