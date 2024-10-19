@@ -10,7 +10,7 @@ pub struct Snake {
     pub direction: (f64, f64),
     pub length: f64,
     pub width: f64,
-    pub speed: f64
+    pub speed: f64,
 }
 
 /*
@@ -20,17 +20,17 @@ change_direction： 更改蛇的方向
 grow： 蛇长一节
 */
 impl Snake {
-    /* 
+    /*
     初始化蛇的身体部分segments，包含两个初始位置 (100.0, 50.0) 和 (90.0, 50.0)
     设置蛇的初始方向 direction 为向右移动，即 (10.0, 0.0)
-    */ 
+    */
     pub fn new() -> Self {
         Snake {
             segments: vec![(100.0, 50.0), (90.0, 50.0)],
             direction: (1.0, 0.0),
             length: 10.0,
             width: 10.0,
-            speed: 0.5
+            speed: 0.5,
         }
     }
 
@@ -42,7 +42,10 @@ impl Snake {
     */
     pub fn move_forward(&mut self) {
         let head = self.segments[0];
-        let new_head = (head.0 + self.direction.0 * self.speed, head.1 + self.direction.1 * self.speed);
+        let new_head = (
+            head.0 + self.direction.0 * self.speed,
+            head.1 + self.direction.1 * self.speed,
+        );
         self.segments.insert(0, new_head);
         self.segments.pop();
     }
