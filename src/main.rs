@@ -34,10 +34,7 @@ fn main() {
         }
 
         // 检查蛇的头部是否与食物位置重合，如果是，则重新生成食物位置并使蛇增长。
-        if snake.segments[0].0 < food.position.0 + food.position.2 && // 蛇头的右侧与食物的左侧相接触
-            snake.segments[0].0 + snake.length > food.position.0 &&    // 蛇头的左侧与食物的右侧相接触
-            snake.segments[0].1 < food.position.1 + food.position.3 && // 蛇头的下侧与食物的上侧相接触
-            snake.segments[0].1 + snake.width > food.position.1
+        if snake.check_collision_with_food(&food)
         {
             // 蛇头的上侧与食物的下侧相接触
             // 碰撞发生，生成新的食物位置并增长蛇

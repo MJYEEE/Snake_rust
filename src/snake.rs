@@ -1,3 +1,5 @@
+use crate::food::Food;
+
 /*
 蛇结构体
 segments：存储蛇的身体部分，每个部分是一个二维坐标(f64, f64)
@@ -55,6 +57,17 @@ impl Snake {
     */
     pub fn change_direction(&mut self, new_direction: (f64, f64)) {
         self.direction = new_direction;
+    }
+
+    /*
+    判断蛇是否与食物重叠
+    */    
+    pub fn check_collision_with_food(&self, food: &Food) -> bool {
+        let head: (f64, f64) = self.segments[0];
+        head.0 < food.position.0 + food.position.2
+            && head.0 + self.length > food.position.0
+            && head.1 < food.position.1 + food.position.3
+            && head.1 + self.width > food.position.1
     }
 
     /*
