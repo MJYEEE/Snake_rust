@@ -22,10 +22,8 @@ change_direction： 更改蛇的方向
 grow： 蛇长一节
 */
 impl Snake {
-    /*
-    初始化蛇的身体部分segments，包含两个初始位置 (100.0, 50.0) 和 (90.0, 50.0)
-    设置蛇的初始方向 direction 为向右移动，即 (10.0, 0.0)
-    */
+
+    // 初始化
     pub fn new() -> Self {
         Snake {
             segments: vec![(100.0, 50.0), (90.0, 50.0)],
@@ -44,10 +42,21 @@ impl Snake {
     */
     pub fn move_forward(&mut self) {
         let head = self.segments[0];
-        let new_head = (
+        let mut new_head = (
             head.0 + self.direction.0 * self.speed,
             head.1 + self.direction.1 * self.speed,
         );
+        // 边界检测，自动回到边界
+        if new_head.0 > 640.0 {
+            new_head.0 = 0.0;
+        } else if new_head.0 < 0.0 {
+            new_head.0 = 640.0;
+        } else if new_head.1 > 480.0 {
+            new_head.1 = 0.0;
+        } else if new_head.1 < 0.0 {
+            new_head.1 = 480.0;
+        }
+        // 插入新的蛇头位置，移除蛇尾
         self.segments.insert(0, new_head);
         self.segments.pop();
     }
@@ -61,7 +70,7 @@ impl Snake {
 
     /*
     判断蛇是否与食物重叠
-    */    
+    */
     pub fn check_collision_with_food(&self, food: &Food) -> bool {
         let head: (f64, f64) = self.segments[0];
         head.0 < food.position.0 + food.position.2
