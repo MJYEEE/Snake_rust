@@ -3,12 +3,14 @@
 segments：存储蛇的身体部分，每个部分是一个二维坐标(f64, f64)
 direction： 存储蛇的移动方向，也是一个二维坐标  (f64, f64)
 length,width：蛇每个身体段的大小
+speed：蛇的移动速度
 */
 pub struct Snake {
     pub segments: Vec<(f64, f64)>,
     pub direction: (f64, f64),
     pub length: f64,
-    pub width: f64
+    pub width: f64,
+    pub speed: f64
 }
 
 /*
@@ -27,7 +29,8 @@ impl Snake {
             segments: vec![(100.0, 50.0), (90.0, 50.0)],
             direction: (1.0, 0.0),
             length: 10.0,
-            width: 10.0
+            width: 10.0,
+            speed: 0.5
         }
     }
 
@@ -39,7 +42,7 @@ impl Snake {
     */
     pub fn move_forward(&mut self) {
         let head = self.segments[0];
-        let new_head = (head.0 + self.direction.0, head.1 + self.direction.1);
+        let new_head = (head.0 + self.direction.0 * self.speed, head.1 + self.direction.1 * self.speed);
         self.segments.insert(0, new_head);
         self.segments.pop();
     }
@@ -56,10 +59,12 @@ impl Snake {
     new_head：下一步蛇头的位置head+direction
     将新的蛇头位置插入到蛇身体的最前面
     但是不会移除蛇身体的最后一段，增长蛇的总体长度
+    同时加快蛇的移动速度
     */
     pub fn grow(&mut self) {
         let head: (f64, f64) = self.segments[0];
         let new_head = (head.0 + self.direction.0, head.1 + self.direction.1);
         self.segments.insert(0, new_head);
+        self.speed += 0.01;
     }
 }
