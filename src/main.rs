@@ -41,7 +41,7 @@ fn main() {
             snake.segments[0].1 < food.position.1 + food.position.3 && // 蛇头的下侧与食物的上侧相接触
             snake.segments[0].1 + snake.width > food.position.1 {      // 蛇头的上侧与食物的下侧相接触
             // 碰撞发生，生成新的食物位置并增长蛇
-            food.position = (rand::random::<f64>() * 640.0, rand::random::<f64>() * 480.0, 10.0, 10.0);
+            food.update(&snake);
             snake.grow();
         } else {
             // 调用 snake.move_forward 方法使蛇向前移动。
@@ -52,7 +52,7 @@ fn main() {
             clear([0.0, 0.0, 0.0, 1.0], g);
             for segment in &snake.segments {
                 rectangle([1.0, 0.0, 0.0, 1.0], // 红色
-                         [segment.0, segment.1, 10.0, 10.0], c.transform, g);
+                         [segment.0, segment.1, snake.length, snake.width], c.transform, g);
             }
             rectangle([0.0, 0.0, 1.0, 1.0], // 蓝色
                      [food.position.0, food.position.1, food.position.2, food.position.3], c.transform, g);
