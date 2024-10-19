@@ -1,87 +1,11 @@
 extern crate piston_window;
 
 use piston_window::*;
+use snake::Snake;
+use food::Food;
 
-
-/*
-蛇结构体
-segments：存储蛇的身体部分，每个部分是一个二维坐标(f64, f64)
-direction： 存储蛇的移动方向，也是一个二维坐标  (f64, f64)
-*/
-struct Snake {
-    segments: Vec<(f64, f64)>,
-    direction: (f64, f64),
-}
-
-/*  
-食物结构体
-position： 存储食物的位置，前面两个变量表示食物的左上角坐标，后面两个变量表示食物的宽度和高度
-*/
-struct Food {
-    position: (f64, f64, f64, f64),
-}
-
-/*
-Snake的方法
-move_forward： 移动蛇，将蛇头移动到下一个位置，并将蛇尾删除
-change_direction： 更改蛇的方向
-grow： 蛇长一节
-*/
-impl Snake {
-    /* 
-    初始化蛇的身体部分segments，包含两个初始位置 (100.0, 50.0) 和 (90.0, 50.0)
-    设置蛇的初始方向 direction 为向右移动，即 (1.0, 0.0)
-    */ 
-    fn new() -> Self {
-        Snake {
-            segments: vec![(100.0, 50.0), (90.0, 50.0)],
-            direction: (1.0, 0.0),
-        }
-    }
-
-    /*
-    head：蛇的头位置segments[0]
-    new_head：下一步蛇头的位置head+direction
-    将新的蛇头位置插入到蛇身体的最前面
-    移除蛇身体的最后一段，保持蛇的长度不变。
-    */
-    fn move_forward(&mut self) {
-        let head = self.segments[0];
-        let new_head = (head.0 + self.direction.0, head.1 + self.direction.1);
-        self.segments.insert(0, new_head);
-        self.segments.pop();
-    }
-
-    /*
-    刷新蛇的前进方向
-    */
-    fn change_direction(&mut self, new_direction: (f64, f64)) {
-        self.direction = new_direction;
-    }
-
-    /*
-    head：蛇的头位置segments[0]
-    new_head：下一步蛇头的位置head+direction
-    将新的蛇头位置插入到蛇身体的最前面
-    但是不会移除蛇身体的最后一段，增长蛇的总体长度
-    */
-    fn grow(&mut self) {
-        let head = self.segments[0];
-        let new_head = (head.0 + self.direction.0, head.1 + self.direction.1);
-        self.segments.insert(0, new_head);
-    }
-}
-
-impl Food {
-    /*
-    初始化食物的位置，初始位置为 (300.0, 300.0)
-    */
-    fn new() -> Self {
-        Food {
-            position: (300.0, 300.0, 15.0, 15.0),
-        }
-    }
-}
+mod snake;
+mod food;
 
 
 fn main() {
