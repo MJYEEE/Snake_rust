@@ -53,7 +53,7 @@ impl Snake {
     但是不会移除蛇身体的最后一段，增长蛇的总体长度
     */
     pub fn grow(&mut self) {
-        let head = self.segments[0];
+        let head: (f64, f64) = self.segments[0];
         let new_head = (head.0 + self.direction.0, head.1 + self.direction.1);
         self.segments.insert(0, new_head);
     }
