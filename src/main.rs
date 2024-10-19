@@ -36,10 +36,11 @@ fn main() {
         }
 
         // 检查蛇的头部是否与食物位置重合，如果是，则重新生成食物位置并使蛇增长。
-        if  snake.segments[0].0 >= food.position.0 
-            && snake.segments[0].0 <= (food.position.0 + food.position.2) 
-            && snake.segments[0].1 >= food.position.1 
-            && snake.segments[0].1 <= (food.position.1 + food.position.3) {
+        if  snake.segments[0].0 < food.position.0 + food.position.2 && // 蛇头的右侧与食物的左侧相接触
+            snake.segments[0].0 + snake.length > food.position.0 &&    // 蛇头的左侧与食物的右侧相接触
+            snake.segments[0].1 < food.position.1 + food.position.3 && // 蛇头的下侧与食物的上侧相接触
+            snake.segments[0].1 + snake.width > food.position.1 {      // 蛇头的上侧与食物的下侧相接触
+            // 碰撞发生，生成新的食物位置并增长蛇
             food.position = (rand::random::<f64>() * 640.0, rand::random::<f64>() * 480.0, 10.0, 10.0);
             snake.grow();
         } else {
@@ -54,7 +55,7 @@ fn main() {
                          [segment.0, segment.1, 10.0, 10.0], c.transform, g);
             }
             rectangle([0.0, 0.0, 1.0, 1.0], // 蓝色
-                     [food.position.0, food.position.1, 10.0, 10.0], c.transform, g);
+                     [food.position.0, food.position.1, food.position.2, food.position.3], c.transform, g);
         });
     }
 }

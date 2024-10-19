@@ -2,10 +2,13 @@
 蛇结构体
 segments：存储蛇的身体部分，每个部分是一个二维坐标(f64, f64)
 direction： 存储蛇的移动方向，也是一个二维坐标  (f64, f64)
+length,width：蛇每个身体段的大小
 */
 pub struct Snake {
     pub segments: Vec<(f64, f64)>,
     pub direction: (f64, f64),
+    pub length: f64,
+    pub width: f64
 }
 
 /*
@@ -17,12 +20,14 @@ grow： 蛇长一节
 impl Snake {
     /* 
     初始化蛇的身体部分segments，包含两个初始位置 (100.0, 50.0) 和 (90.0, 50.0)
-    设置蛇的初始方向 direction 为向右移动，即 (1.0, 0.0)
+    设置蛇的初始方向 direction 为向右移动，即 (10.0, 0.0)
     */ 
     pub fn new() -> Self {
         Snake {
             segments: vec![(100.0, 50.0), (90.0, 50.0)],
             direction: (1.0, 0.0),
+            length: 10.0,
+            width: 10.0
         }
     }
 
